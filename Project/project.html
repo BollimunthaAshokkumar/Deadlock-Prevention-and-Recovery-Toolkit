@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deadlock Prevention & Recovery Toolkit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="icon" type="image/x-icon" href="/my code/images/freebsd-brands-solid-full.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">Deadlock Prevention &amp; Recovery Toolkit</h1>
+    <div class="logo-circle"><span class="logo-letter"><i class="fa-brands fa-freebsd"></i></span></div>
+  </div>
+</header>
+
+<main class="dashboard">
+
+  <!-- Simulation Controls -->
+  <section class="panel controls">
+    <div class="panel-title">Simulation Controls</div>
+    <div class="controls-grid">
+      <div class="field">
+        <label>Processes</label>
+        <input id="P" type="number" min="1" value="3">
+      </div>
+      <div class="field">
+        <label>Resources</label>
+        <input id="R" type="number" min="1" value="3">
+      </div>
+      <div class="controls-buttons">
+        <button class="btn primary" onclick="checkState()">Check Safe State</button>
+        <button class="btn ghost" onclick="drawGraph()">Draw Resource Graph</button>
+        <button class="btn ghost" onclick="fillExample()">Load Sample</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAG + inline results -->
+  <section class="panel rag">
+    <div class="rag-header">
+      <div>
+        <div class="panel-title">Resource Allocation Graph (RAG)</div>
+        <div class="panel-subtitle small-sub">
+          Processes (P) on the left, Resources (R) on the right.
+        </div>
+      </div>
+
+      <div class="rag-results">
+        <div class="rag-result-line">
+          <span class="rag-label">Banker’s result:</span>
+          <span id="bankerBadge" class="pill pill-neutral">—</span>
+        </div>
+        <div class="rag-result-line">
+          <span class="rag-label">Deadlock:</span>
+          <span id="deadlockBadge" class="pill pill-neutral">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="ragText" class="rag-text">
+      Safe sequence and deadlock information will appear here.
+    </div>
+
+    <div id="graphWrap" class="graph-wrap"></div>
+  </section>
+
+  <!-- System Matrices -->
+  <section class="panel matrices">
+    <div class="panel-title">System Matrices</div>
+
+    <div class="matrices-top">
+      <div class="matrix-block">
+        <div class="matrix-title">Allocation</div>
+        <div id="allocGrid" class="matrix-grid"></div>
+      </div>
+      <div class="matrix-block">
+        <div class="matrix-title">Maximum</div>
+        <div id="maxGrid" class="matrix-grid"></div>
+      </div>
+    </div>
+
+    <div class="avail-block">
+      <div class="matrix-title">Available</div>
+      <div id="availGrid" class="avail-grid"></div>
+    </div>
+  </section>
+
+  <!-- Event Log -->
+  <section class="panel log">
+    <div class="panel-title">Event Log</div>
+    <div id="eventLog" class="event-log"></div>
+  </section>
+
+  <!-- Flow diagram -->
+  <section class="panel flow">
+    <div class="panel-title">Toolkit Flow Diagram</div>
+    <div class="panel-subtitle">
+      High-level flow: Input → Deadlock Detection (RAG) → Safe State Check (Banker) → Recovery / Visualization.
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">User Input</div>
+      <div class="flow-arrow">▼</div>
+      <div class="flow-node">Deadlock Detection (RAG + Cycle Check)</div>
+      <div class="flow-arrow">▼</div>
+      <div class="flow-node">Prevention (Banker Safe-State Check)</div>
+      <div class="flow-arrow">▼</div>
+      <div class="flow-node">Recovery / Actions / Visualization</div>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
